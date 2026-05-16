@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VYZE — Premium 1:1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#0a0a0a;
+  --white:#fafaf8;
+  --gray:#f2f1ef;
+  --gray2:#e8e7e4;
+  --gray3:#c0bfbc;
+  --muted:#888784;
+  --accent:#0a0a0a;
+  --red:#d63a2f;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;cursor:none;}
+
+/* CURSOR */
+#cursor{position:fixed;width:10px;height:10px;background:var(--black);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,width 0.2s,height 0.2s;}
+#cursor-ring{position:fixed;width:32px;height:32px;border:1px solid var(--black);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.12s,width 0.2s,height 0.2s,opacity 0.2s;}
+body:hover #cursor{opacity:1;}
+
+/* ANNOUNCEMENT BAR */
+#announce-bar{background:var(--black);color:var(--white);height:36px;display:flex;align-items:center;overflow:hidden;position:relative;}
+#announce-track{display:flex;gap:80px;animation:marquee 18s linear infinite;white-space:nowrap;font-size:11px;letter-spacing:2px;font-family:'DM Mono',monospace;}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+#announce-track span{flex-shrink:0;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--gray2);display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:60px;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--black);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:8px;color:var(--black);text-decoration:none;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-right{display:flex;align-items:center;gap:20px;}
+.nav-icon{background:none;border:none;cursor:none;font-size:18px;color:var(--black);position:relative;}
+#cart-count{position:absolute;top:-6px;right:-6px;background:var(--black);color:var(--white);font-size:9px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;}
+.nav-search-bar{display:flex;align-items:center;gap:8px;border:1px solid var(--gray2);border-radius:2px;padding:6px 12px;transition:border-color 0.2s;}
+.nav-search-bar:focus-within{border-color:var(--black);}
+.nav-search-bar input{border:none;outline:none;font-size:12px;background:transparent;width:120px;font-family:'DM Sans',sans-serif;}
+
+/* HERO */
+#hero{height:calc(100vh - 96px);background:var(--gray);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 64px;gap:32px;}
+.hero-eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);font-family:'DM Mono',monospace;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,8vw,120px);line-height:0.92;letter-spacing:4px;color:var(--black);}
+.hero-title span{color:var(--muted);}
+.hero-sub{font-size:14px;color:var(--muted);max-width:320px;line-height:1.7;}
+.hero-btns{display:flex;gap:12px;margin-top:8px;}
+.btn-primary{background:var(--black);color:var(--white);border:none;padding:14px 32px;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:none;font-family:'DM Sans',sans-serif;transition:opacity 0.2s;}
+.btn-primary:hover{opacity:0.8;}
+.btn-outline{background:transparent;color:var(--black);border:1px solid var(--black);padding:14px 32px;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.btn-outline:hover{background:var(--black);color:var(--white);}
+.hero-right{position:relative;overflow:hidden;}
+.hero-img{width:100%;height:100%;object-fit:cover;filter:grayscale(15%);}
+.hero-img-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#e8e7e4 0%,#d0cfc9 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.hero-img-placeholder .big-letter{font-family:'Bebas Neue',sans-serif;font-size:200px;color:rgba(0,0,0,0.06);line-height:1;letter-spacing:20px;}
+.hero-stats{display:flex;gap:40px;margin-top:16px;}
+.hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;}
+.hero-stat-label{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+
+/* BRAND STRIP */
+#brand-strip{border-bottom:1px solid var(--gray2);border-top:1px solid var(--gray2);overflow:hidden;background:var(--white);}
+#brand-track{display:flex;gap:0;animation:marquee 20s linear infinite;}
+.brand-pill{flex-shrink:0;padding:16px 40px;border-right:1px solid var(--gray2);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);white-space:nowrap;transition:color 0.2s,background 0.2s;cursor:none;}
+.brand-pill:hover{color:var(--black);background:var(--gray);}
+
+/* SECTION HEADERS */
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;}
+.section-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:8px;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;}
+.section-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--gray3);padding-bottom:2px;transition:color 0.2s,border-color 0.2s;cursor:none;}
+.section-link:hover{color:var(--black);border-color:var(--black);}
+
+/* FILTERS */
+#filters{padding:24px 48px;border-bottom:1px solid var(--gray2);display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--white);position:sticky;top:60px;z-index:90;}
+.filter-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-right:8px;font-family:'DM Mono',monospace;}
+.filter-btn{background:none;border:1px solid var(--gray2);padding:7px 16px;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:none;color:var(--muted);transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.filter-btn:hover,.filter-btn.active{background:var(--black);color:var(--white);border-color:var(--black);}
+.filter-select{border:1px solid var(--gray2);background:none;padding:7px 12px;font-size:11px;letter-spacing:1px;cursor:none;color:var(--muted);font-family:'DM Sans',sans-serif;margin-left:auto;outline:none;}
+.filter-select:focus{border-color:var(--black);}
+
+/* PRODUCTS GRID */
+#shop{padding:48px;}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px;}
+.product-card{background:var(--gray);position:relative;cursor:none;overflow:hidden;group;}
+.product-img-wrap{aspect-ratio:3/4;overflow:hidden;position:relative;background:var(--gray2);}
+.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;}
+.product-card:hover .product-img-wrap img{transform:scale(1.04);}
+.product-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:64px;color:rgba(0,0,0,0.08);letter-spacing:4px;transition:transform 0.6s ease;}
+.product-card:hover .product-img-placeholder{transform:scale(1.04);}
+.product-badge{position:absolute;top:12px;left:12px;padding:4px 10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:'DM Mono',monospace;z-index:2;}
+.badge-new{background:var(--black);color:var(--white);}
+.badge-low{background:var(--red);color:var(--white);}
+.badge-sold{background:var(--gray3);color:var(--white);}
+.product-quick{position:absolute;bottom:0;left:0;right:0;background:var(--black);color:var(--white);border:none;padding:14px;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:none;opacity:0;transform:translateY(100%);transition:all 0.3s;font-family:'DM Sans',sans-serif;}
+.product-card:hover .product-quick{opacity:1;transform:translateY(0);}
+.product-info{padding:16px 12px 20px;background:var(--white);}
+.product-brand{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;font-family:'DM Mono',monospace;}
+.product-name{font-size:14px;font-weight:500;color:var(--black);margin-bottom:8px;line-height:1.3;}
+.product-price-row{display:flex;align-items:center;justify-content:space-between;}
+.product-price{font-family:'DM Mono',monospace;font-size:14px;font-weight:500;}
+.product-sizes{font-size:10px;color:var(--muted);letter-spacing:1px;}
+.product-color-dot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,0.15);display:inline-block;flex-shrink:0;}
+
+/* WHY VYZE */
+#why{padding:80px 48px;background:var(--black);color:var(--white);}
+#why .section-label{color:rgba(255,255,255,0.4);}
+#why .section-title{color:var(--white);}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px;}
+.why-card{padding:40px 32px;border:1px solid rgba(255,255,255,0.08);transition:background 0.3s;}
+.why-card:hover{background:rgba(255,255,255,0.04);}
+.why-num{font-family:'Bebas Neue',sans-serif;font-size:56px;color:rgba(255,255,255,0.12);line-height:1;margin-bottom:16px;}
+.why-title{font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;font-weight:500;}
+.why-text{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;}
+
+/* REVIEWS */
+#reviews{padding:80px 48px;background:var(--gray);}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px;}
+.review-card{background:var(--white);padding:28px;border:1px solid var(--gray2);}
+.review-stars{font-size:12px;color:var(--black);letter-spacing:2px;margin-bottom:12px;}
+.review-text{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+.review-author{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:500;}
+.review-item{font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:2px;}
+
+/* FAQ */
+#faq{padding:80px 48px;max-width:800px;margin:0 auto;}
+.faq-item{border-bottom:1px solid var(--gray2);}
+.faq-q{width:100%;background:none;border:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:500;cursor:none;text-align:left;font-family:'DM Sans',sans-serif;color:var(--black);}
+.faq-q span{font-size:20px;transition:transform 0.3s;color:var(--muted);}
+.faq-q.open span{transform:rotate(45deg);}
+.faq-a{font-size:13px;color:var(--muted);line-height:1.8;max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s;}
+.faq-a.open{max-height:200px;padding-bottom:20px;}
+
+/* EMAIL SIGNUP */
+#signup{padding:80px 48px;background:var(--black);color:var(--white);text-align:center;}
+#signup .section-title{color:var(--white);font-size:56px;}
+#signup p{color:rgba(255,255,255,0.5);margin:16px auto 40px;max-width:400px;font-size:14px;}
+.email-form{display:flex;max-width:480px;margin:0 auto;gap:0;}
+.email-input{flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-right:none;padding:14px 20px;color:var(--white);font-size:13px;outline:none;font-family:'DM Sans',sans-serif;}
+.email-input::placeholder{color:rgba(255,255,255,0.3);}
+.email-input:focus{border-color:rgba(255,255,255,0.4);}
+.email-submit{background:var(--white);color:var(--black);border:none;padding:14px 28px;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:none;font-family:'DM Sans',sans-serif;font-weight:500;transition:opacity 0.2s;}
+.email-submit:hover{opacity:0.8;}
+
+/* FOOTER */
+footer{padding:48px;background:var(--white);border-top:1px solid var(--gray2);}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:8px;margin-bottom:12px;}
+.footer-tagline{font-size:12px;color:var(--muted);line-height:1.7;max-width:240px;}
+.footer-cash{margin-top:16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--black);}
+.footer-col-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--black);margin-bottom:16px;font-weight:500;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color 0.2s;cursor:none;}
+.footer-links a:hover{color:var(--black);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--gray2);}
+.footer-copy{font-size:11px;color:var(--muted);letter-spacing:1px;font-family:'DM Mono',monospace;}
+.footer-socials{display:flex;gap:16px;}
+.social-link{font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color 0.2s;cursor:none;}
+.social-link:hover{color:var(--black);}
+
+/* CART SIDEBAR */
+#cart-sidebar{position:fixed;top:0;right:-420px;width:420px;height:100vh;background:var(--white);z-index:200;border-left:1px solid var(--gray2);transition:right 0.4s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;}
+#cart-sidebar.open{right:0;}
+#cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:199;opacity:0;pointer-events:none;transition:opacity 0.4s;}
+#cart-overlay.open{opacity:1;pointer-events:all;}
+.cart-header{padding:24px;border-bottom:1px solid var(--gray2);display:flex;justify-content:space-between;align-items:center;}
+.cart-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;}
+.cart-close{background:none;border:none;font-size:24px;cursor:none;color:var(--muted);line-height:1;}
+.cart-items{flex:1;overflow-y:auto;padding:24px;}
+.cart-empty{text-align:center;padding:60px 24px;color:var(--muted);}
+.cart-empty-icon{font-size:48px;margin-bottom:16px;opacity:0.3;}
+.cart-empty p{font-size:13px;letter-spacing:1px;}
+.cart-item{display:flex;gap:16px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--gray2);}
+.cart-item-img{width:80px;height:100px;background:var(--gray);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(0,0,0,0.15);overflow:hidden;}
+.cart-item-img img{width:100%;height:100%;object-fit:cover;}
+.cart-item-info{flex:1;}
+.cart-item-brand{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-family:'DM Mono',monospace;}
+.cart-item-name{font-size:13px;font-weight:500;margin:4px 0 8px;}
+.cart-item-size{font-size:11px;color:var(--muted);}
+.cart-item-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.cart-item-price{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;}
+.cart-item-remove{background:none;border:none;font-size:18px;color:var(--gray3);cursor:none;transition:color 0.2s;line-height:1;}
+.cart-item-remove:hover{color:var(--red);}
+.cart-footer{padding:24px;border-top:1px solid var(--gray2);}
+.cart-total-row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:var(--muted);}
+.cart-total{display:flex;justify-content:space-between;font-weight:500;font-size:15px;margin-bottom:20px;padding-top:12px;border-top:1px solid var(--gray2);}
+.cart-total span:last-child{font-family:'DM Mono',monospace;}
+.checkout-btn{width:100%;background:var(--black);color:var(--white);border:none;padding:16px;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:none;font-family:'DM Sans',sans-serif;transition:opacity 0.2s;margin-bottom:8px;}
+.checkout-btn:hover{opacity:0.8;}
+.cart-note{font-size:11px;color:var(--muted);text-align:center;line-height:1.5;}
+
+/* PRODUCT MODAL */
+#product-modal{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+#product-modal.open{opacity:1;pointer-events:all;}
+#modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);}
+.modal-box{position:relative;background:var(--white);width:900px;max-width:95vw;max-height:90vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;}
+.modal-img{background:var(--gray);min-height:480px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:80px;color:rgba(0,0,0,0.07);letter-spacing:6px;overflow:hidden;}
+.modal-img img{width:100%;height:100%;object-fit:cover;}
+.modal-info{padding:48px 40px;display:flex;flex-direction:column;gap:16px;}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--white);border:1px solid var(--gray2);width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:none;color:var(--muted);z-index:1;transition:all 0.2s;}
+.modal-close:hover{background:var(--black);color:var(--white);}
+.modal-brand{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);font-family:'DM Mono',monospace;}
+.modal-name{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:2px;line-height:1.1;}
+.modal-price{font-family:'DM Mono',monospace;font-size:22px;font-weight:500;}
+.modal-desc{font-size:13px;color:var(--muted);line-height:1.8;}
+.modal-color-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);}
+.size-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;font-weight:500;}
+.sizes-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;}
+.size-btn{border:1px solid var(--gray2);background:none;padding:8px 14px;font-size:12px;cursor:none;transition:all 0.2s;font-family:'DM Mono',monospace;}
+.size-btn:hover,.size-btn.active{border-color:var(--black);background:var(--black);color:var(--white);}
+.modal-add{width:100%;background:var(--black);color:var(--white);border:none;padding:16px;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:none;font-family:'DM Sans',sans-serif;margin-top:8px;transition:opacity 0.2s;}
+.modal-add:hover{opacity:0.8;}
+.modal-shipping{font-size:12px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap;}
+.modal-shipping span{display:flex;align-items:center;gap:6px;}
+
+/* CHECKOUT MODAL */
+#checkout-modal{position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+#checkout-modal.open{opacity:1;pointer-events:all;}
+#checkout-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.6);}
+.checkout-box{position:relative;background:var(--white);width:560px;max-width:95vw;max-height:90vh;overflow-y:auto;padding:48px;}
+.checkout-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;margin-bottom:32px;}
+.checkout-section{margin-bottom:28px;}
+.checkout-section-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;font-family:'DM Mono',monospace;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.form-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.form-input{border:1px solid var(--gray2);padding:12px;font-size:14px;outline:none;font-family:'DM Sans',sans-serif;transition:border-color 0.2s;}
+.form-input:focus{border-color:var(--black);}
+.checkout-summary{background:var(--gray);padding:20px;margin:24px 0;}
+.checkout-summary-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;font-family:'DM Mono',monospace;}
+.checkout-item-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;color:var(--muted);}
+.checkout-total-row{display:flex;justify-content:space-between;font-size:14px;font-weight:500;padding-top:12px;border-top:1px solid var(--gray2);margin-top:8px;}
+.checkout-total-row span:last-child{font-family:'DM Mono',monospace;}
+.cashapp-box{background:var(--black);color:var(--white);padding:24px;text-align:center;margin:20px 0;}
+.cashapp-tag{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:4px;margin:8px 0;}
+.cashapp-note{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.6;}
+.cashapp-amount{font-family:'DM Mono',monospace;font-size:24px;margin:12px 0;}
+.place-order-btn{width:100%;background:var(--black);color:var(--white);border:none;padding:18px;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:none;font-family:'DM Sans',sans-serif;transition:opacity 0.2s;margin-top:8px;}
+.place-order-btn:hover{opacity:0.8;}
+.checkout-close{position:absolute;top:16px;right:16px;background:none;border:1px solid var(--gray2);width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:none;color:var(--muted);}
+
+/* ORDER CONFIRM */
+#confirm-modal{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+#confirm-modal.open{opacity:1;pointer-events:all;}
+#confirm-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.7);}
+.confirm-box{position:relative;background:var(--white);width:480px;max-width:95vw;padding:60px 48px;text-align:center;}
+.confirm-check{font-size:48px;margin-bottom:24px;}
+.confirm-title{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:3px;margin-bottom:12px;}
+.confirm-sub{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:32px;}
+.confirm-order-num{font-family:'DM Mono',monospace;font-size:12px;background:var(--gray);padding:12px 24px;display:inline-block;letter-spacing:2px;margin-bottom:24px;}
+
+/* ADMIN */
+#admin-panel{position:fixed;inset:0;z-index:600;background:var(--white);overflow-y:auto;display:none;}
+#admin-panel.open{display:block;}
+.admin-nav{background:var(--black);color:var(--white);padding:20px 48px;display:flex;align-items:center;justify-content:space-between;}
+.admin-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:4px;}
+.admin-close{background:none;border:1px solid rgba(255,255,255,0.2);color:var(--white);padding:8px 20px;font-size:11px;letter-spacing:2px;cursor:none;font-family:'DM Sans',sans-serif;}
+.admin-body{padding:48px;max-width:1100px;margin:0 auto;}
+.admin-section{margin-bottom:48px;}
+.admin-section-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;margin-bottom:24px;border-bottom:2px solid var(--gray2);padding-bottom:12px;}
+.admin-form{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+.admin-form .form-group{margin-bottom:0;}
+.admin-form .form-group.full{grid-column:1/-1;}
+.admin-btn{background:var(--black);color:var(--white);border:none;padding:12px 28px;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:none;font-family:'DM Sans',sans-serif;}
+.admin-products-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+.admin-product-card{border:1px solid var(--gray2);padding:16px;}
+.admin-product-card-img{background:var(--gray);height:120px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:32px;color:rgba(0,0,0,0.1);margin-bottom:12px;overflow:hidden;}
+.admin-product-card-img img{width:100%;height:100%;object-fit:cover;}
+.admin-product-name{font-size:13px;font-weight:500;margin-bottom:4px;}
+.admin-product-price{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:12px;}
+.admin-product-actions{display:flex;gap:8px;}
+.admin-delete{background:none;border:1px solid var(--red);color:var(--red);padding:6px 12px;font-size:10px;letter-spacing:1px;cursor:none;font-family:'DM Sans',sans-serif;}
+.admin-edit{background:none;border:1px solid var(--gray2);color:var(--muted);padding:6px 12px;font-size:10px;letter-spacing:1px;cursor:none;font-family:'DM Sans',sans-serif;}
+
+/* COLOR PICKER */
+.color-picker-wrap{display:flex;flex-direction:column;gap:10px;}
+.color-presets{display:flex;flex-wrap:wrap;gap:8px;}
+.color-preset{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform 0.15s,border-color 0.15s;flex-shrink:0;}
+.color-preset:hover{transform:scale(1.15);}
+.color-preset.selected{border-color:var(--black);transform:scale(1.15);}
+.color-custom-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);}
+.color-custom-row input[type="color"]{width:36px;height:28px;border:1px solid var(--gray2);padding:2px;cursor:pointer;background:none;}
+.color-name-input{border:1px solid var(--gray2);padding:6px 10px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;flex:1;}
+.color-name-input:focus{border-color:var(--black);}
+
+/* IMAGE UPLOAD */
+.img-upload-area{border:2px dashed var(--gray2);padding:24px;text-align:center;cursor:pointer;transition:border-color 0.2s;position:relative;background:var(--gray);}
+.img-upload-area:hover{border-color:var(--black);}
+.img-upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.img-upload-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-family:'DM Mono',monospace;pointer-events:none;}
+.img-upload-label span{display:block;font-size:24px;margin-bottom:8px;}
+.img-preview{width:100%;height:160px;object-fit:cover;display:none;margin-top:12px;border:1px solid var(--gray2);}
+.img-preview.show{display:block;}
+.img-clear{display:none;margin-top:8px;background:none;border:1px solid var(--red);color:var(--red);padding:4px 12px;font-size:10px;letter-spacing:1px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.img-clear.show{display:inline-block;}
+
+/* TOAST */
+#toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--black);color:var(--white);padding:14px 28px;font-size:11px;letter-spacing:2px;text-transform:uppercase;z-index:700;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);font-family:'DM Mono',monospace;white-space:nowrap;}
+#toast.show{transform:translateX(-50%) translateY(0);}
+
+/* TRACK ORDER */
+#track-section{padding:80px 48px;background:var(--gray);display:none;}
+#track-section.active{display:block;}
+.track-form{max-width:480px;margin:0 auto;display:flex;gap:0;margin-top:32px;}
+.track-result{max-width:480px;margin:24px auto 0;background:var(--white);border:1px solid var(--gray2);padding:28px;display:none;}
+.track-result.show{display:block;}
+.track-status{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.track-dot{width:10px;height:10px;border-radius:50%;background:#22c55e;flex-shrink:0;}
+.track-status-text{font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:500;}
+.track-timeline{display:flex;flex-direction:column;gap:16px;}
+.track-event{display:flex;gap:16px;font-size:13px;}
+.track-event-dot{width:6px;height:6px;border-radius:50%;background:var(--gray3);margin-top:6px;flex-shrink:0;}
+.track-event-dot.done{background:var(--black);}
+.track-event-text{color:var(--muted);}
+.track-event-date{font-family:'DM Mono',monospace;font-size:11px;color:var(--gray3);}
+
+/* MISC */
+.page-section{padding:80px 48px;}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+@media(max-width:768px){
+  #hero{grid-template-columns:1fr;height:auto;}
+  .hero-right{display:none;}
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  #shop{padding:24px 16px;}
+  .why-grid,.reviews-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .modal-box{grid-template-columns:1fr;}
+  .modal-img{display:none;}
+  .admin-form{grid-template-columns:1fr;}
+  #filters{padding:16px;}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="toast">Item added to cart</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div id="announce-bar">
+  <div id="announce-track">
+    <span>🔥 Free shipping on orders over $150</span>
+    <span>✦ 10-15 Day Delivery Worldwide</span>
+    <span>✦ Premium 1:1 Quality Guaranteed</span>
+    <span>✦ Cash App: $resllerhq</span>
+    <span>✦ New Drops Every Week</span>
+    <span>🔥 Free shipping on orders over $150</span>
+    <span>✦ 10-15 Day Delivery Worldwide</span>
+    <span>✦ Premium 1:1 Quality Guaranteed</span>
+    <span>✦ Cash App: $resllerhq</span>
+    <span>✦ New Drops Every Week</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <ul class="nav-links">
+    <li><a href="#shop" onclick="filterProducts('all')">Shop All</a></li>
+    <li><a href="#shop" onclick="filterProducts('clothing')">Clothing</a></li>
+    <li><a href="#shop" onclick="filterProducts('shoes')">Shoes</a></li>
+    <li><a href="#shop" onclick="filterProducts('accessories')">Accessories</a></li>
+  </ul>
+  <a href="#" class="nav-logo">VYZE</a>
+  <div class="nav-right">
+    <div class="nav-search-bar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search..." id="search-input" oninput="searchProducts(this.value)">
+    </div>
+    <button class="nav-icon" onclick="toggleAdmin()" title="Admin" style="font-size:14px;letter-spacing:1px;font-family:'DM Mono',monospace;border:1px solid var(--gray2);padding:6px 12px;">ADMIN</button>
+    <button class="nav-icon" onclick="toggleCart()">
+      🛍
+      <span id="cart-count" style="display:none">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">New Collection — 2025</div>
+    <h1 class="hero-title">DRESS<br><span>DIFFERENT</span></h1>
+    <p class="hero-sub">Premium 1:1 quality pieces from the world's most coveted brands. Delivered to your door in 10-15 days.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+      <button class="btn-outline" onclick="document.getElementById('why').scrollIntoView({behavior:'smooth'})">Why VYZE</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hero-stat-num">500+</div><div class="hero-stat-label">Products</div></div>
+      <div><div class="hero-stat-num">10+</div><div class="hero-stat-label">Brands</div></div>
+      <div><div class="hero-stat-num">100%</div><div class="hero-stat-label">Satisfaction</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-placeholder">
+      <div class="big-letter">V</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:8px;color:rgba(0,0,0,0.2)">VYZE PREMIUM</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRAND STRIP -->
+<div id="brand-strip">
+  <div id="brand-track">
+    <span class="brand-pill">Essentials</span>
+    <span class="brand-pill">Spider</span>
+    <span class="brand-pill">Hellstar</span>
+    <span class="brand-pill">Lululemon</span>
+    <span class="brand-pill">Alo</span>
+    <span class="brand-pill">Balenciaga</span>
+    <span class="brand-pill">Louis Vuitton</span>
+    <span class="brand-pill">Rick Owens</span>
+    <span class="brand-pill">Dior</span>
+    <span class="brand-pill">Bape</span>
+    <span class="brand-pill">Essentials</span>
+    <span class="brand-pill">Spider</span>
+    <span class="brand-pill">Hellstar</span>
+    <span class="brand-pill">Lululemon</span>
+    <span class="brand-pill">Alo</span>
+    <span class="brand-pill">Balenciaga</span>
+    <span class="brand-pill">Louis Vuitton</span>
+    <span class="brand-pill">Rick Owens</span>
+    <span class="brand-pill">Dior</span>
+    <span class="brand-pill">Bape</span>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div id="filters">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="filterProducts('all',this)">All</button>
+  <button class="filter-btn" onclick="filterProducts('clothing',this)">Clothing</button>
+  <button class="filter-btn" onclick="filterProducts('shoes',this)">Shoes</button>
+  <button class="filter-btn" onclick="filterProducts('accessories',this)">Accessories</button>
+  <button class="filter-btn" onclick="filterProducts('essentials',this)">Essentials</button>
+  <button class="filter-btn" onclick="filterProducts('spider',this)">Spider</button>
+  <button class="filter-btn" onclick="filterProducts('lululemon',this)">Lulu</button>
+  <button class="filter-btn" onclick="filterProducts('balenciaga',this)">Balenciaga</button>
+  <button class="filter-btn" onclick="filterProducts('lv',this)">LV</button>
+  <button class="filter-btn" onclick="filterProducts('dior',this)">Dior</button>
+  <select class="filter-select" onchange="sortProducts(this.value)">
+    <option value="">Sort By</option>
+    <option value="price-low">Price: Low to High</option>
+    <option value="price-high">Price: High to Low</option>
+    <option value="new">Newest</option>
+  </select>
+</div>
+
+<!-- SHOP -->
+<section id="shop" class="page-section" style="padding-top:40px;">
+  <h2 class="visually-hidden">Shop all products</h2>
+  <div class="products-grid" id="products-grid"></div>
+  <div id="no-products" style="display:none;text-align:center;padding:60px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:2px;font-size:12px;">NO PRODUCTS FOUND</div>
+</section>
+
+<!-- WHY VYZE -->
+<section id="why">
+  <div class="section-header">
+    <div><div class="section-label">Our Promise</div><h2 class="section-title" style="color:var(--white)">Why VYZE</h2></div>
+  </div>
+  <div class="why-grid">
+    <div class="why-card"><div class="why-num">01</div><div class="why-title">Premium 1:1 Quality</div><div class="why-text">Every piece is sourced from top-tier suppliers with strict quality control. You get the look and feel of the real thing.</div></div>
+    <div class="why-card"><div class="why-num">02</div><div class="why-title">Fast &amp; Discreet Shipping</div><div class="why-text">10-15 day delivery straight to your door. All packages are shipped discreetly with no brand markings on the outside.</div></div>
+    <div class="why-card"><div class="why-num">03</div><div class="why-title">Easy Cash App Checkout</div><div class="why-text">Simple and fast. Pay via Cash App and your order ships within 24 hours. No complicated payment processors.</div></div>
+    <div class="why-card"><div class="why-num">04</div><div class="why-title">10+ Premium Brands</div><div class="why-text">From Essentials to Louis Vuitton. We carry the hottest brands in streetwear and luxury fashion.</div></div>
+    <div class="why-card"><div class="why-num">05</div><div class="why-title">Real Customer Support</div><div class="why-text">Questions? Reach us directly. We're real people who care about your experience and making it right.</div></div>
+    <div class="why-card"><div class="why-num">06</div><div class="why-title">Weekly New Drops</div><div class="why-text">New products added every week. Follow us and sign up for the newsletter to never miss a new drop.</div></div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="page-section">
+  <div class="section-header">
+    <div><div class="section-label">Social Proof</div><h2 class="section-title">What They Say</h2></div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Got the Spider hoodie and it's literally identical to the one my friend paid $300 for. Quality is insane for the price. Will definitely be ordering again."</p><div class="review-author">Jordan M.</div><div class="review-item">Spider Hoodie — Black</div></div>
+    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"The Lululemon set is perfect. Material feels exactly the same, the logo placement is spot on. Came in 12 days which was faster than expected."</p><div class="review-author">Aaliyah K.</div><div class="review-item">Lululemon Set — Pink</div></div>
+    <div class="review-card"><div class="review-stars">★★★★☆</div><p class="review-text">"LV hoodie is fire. Stitching is clean, fits perfectly. Only reason I give 4 stars is I wish there were more colorways. Packaging was very professional."</p><div class="review-author">Marcus T.</div><div class="review-item">LV Monogram Hoodie</div></div>
+    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Balenciaga track runners are 10/10. Sole feels solid, materials are premium. My friend literally asked me where I bought them. Shipped super discreet too."</p><div class="review-author">Devon R.</div><div class="review-item">Balenciaga Track Runners</div></div>
+    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Third order from VYZE and every single time it's been perfect. The Hellstar hoodie is my favorite piece right now. Customer service actually responds fast."</p><div class="review-author">Zoe P.</div><div class="review-item">Hellstar Hoodie — White</div></div>
+    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Dior B30s are absolutely crazy. Colorway is perfect, box quality is clean, everything down to the insole is accurate. VYZE is the only place I shop now."</p><div class="review-author">Isaiah W.</div><div class="review-item">Dior B30 Sneakers</div></div>
+  </div>
+</section>
+
+<!-- TRACK ORDER -->
+<section id="track-section">
+  <div class="section-header"><div><div class="section-label">Order Status</div><h2 class="section-title">Track Your Order</h2></div></div>
+  <div class="track-form">
+    <input type="text" class="form-input" id="track-input" placeholder="Enter your order number (e.g. VYZ-1234)" style="flex:1;border-right:none;">
+    <button class="btn-primary" onclick="trackOrder()">Track</button>
+  </div>
+  <div class="track-result" id="track-result">
+    <div class="track-status"><div class="track-dot"></div><div class="track-status-text">In Transit</div></div>
+    <div class="track-timeline">
+      <div class="track-event"><div class="track-event-dot done"></div><div><div class="track-event-text">Order Confirmed &amp; Payment Received</div><div class="track-event-date">Day 1</div></div></div>
+      <div class="track-event"><div class="track-event-dot done"></div><div><div class="track-event-text">Processing &amp; Quality Check</div><div class="track-event-date">Day 2-3</div></div></div>
+      <div class="track-event"><div class="track-event-dot done"></div><div><div class="track-event-text">Shipped — Package In Transit</div><div class="track-event-date">Day 4</div></div></div>
+      <div class="track-event"><div class="track-event-dot"></div><div><div class="track-event-text">Out for Delivery</div><div class="track-event-date">Day 10-15</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="page-section">
+  <div style="text-align:center;margin-bottom:48px;"><div class="section-label" style="text-align:center;margin-bottom:8px;">Got Questions</div><h2 class="section-title">FAQ</h2></div>
+  <div id="faq-list"></div>
+</section>
+
+<!-- EMAIL SIGNUP -->
+<section id="signup">
+  <div class="section-label" style="color:rgba(255,255,255,0.4);text-align:center;margin-bottom:12px;">Stay Connected</div>
+  <h2 class="section-title" style="color:var(--white);text-align:center;">Get Early Access<br>To New Drops</h2>
+  <p style="color:rgba(255,255,255,0.4);text-align:center;margin:16px auto 40px;max-width:400px;font-size:14px;">Be the first to know when new products drop. No spam, just fire pieces.</p>
+  <div class="email-form">
+    <input type="email" class="email-input" placeholder="your@email.com" id="email-signup">
+    <button class="email-submit" onclick="signupEmail()">Notify Me</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">VYZE</div>
+      <p class="footer-tagline">Premium 1:1 quality pieces from the world's most coveted brands. Delivered worldwide.</p>
+      <div class="footer-cash">Cash App: $resllerhq</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Shop</div>
+      <ul class="footer-links">
+        <li><a href="#shop" onclick="filterProducts('all')">All Products</a></li>
+        <li><a href="#shop" onclick="filterProducts('clothing')">Clothing</a></li>
+        <li><a href="#shop" onclick="filterProducts('shoes')">Shoes</a></li>
+        <li><a href="#shop" onclick="filterProducts('accessories')">Accessories</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Brands</div>
+      <ul class="footer-links">
+        <li><a href="#shop" onclick="filterProducts('essentials')">Essentials</a></li>
+        <li><a href="#shop" onclick="filterProducts('spider')">Spider</a></li>
+        <li><a href="#shop" onclick="filterProducts('lululemon')">Lululemon</a></li>
+        <li><a href="#shop" onclick="filterProducts('lv')">Louis Vuitton</a></li>
+        <li><a href="#shop" onclick="filterProducts('dior')">Dior</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Help</div>
+      <ul class="footer-links">
+        <li><a href="#" onclick="showTrack()">Track Order</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#why">Why VYZE</a></li>
+        <li><a href="mailto:vyze@gmail.com">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 VYZE — All rights reserved</div>
+    <div class="footer-socials">
+      <a href="#" class="social-link">Instagram</a>
+      <a href="#" class="social-link">Twitter</a>
+      <a href="#" class="social-link">Telegram</a>
+    </div>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div id="cart-overlay" onclick="toggleCart()"></div>
+<div id="cart-sidebar">
+  <div class="cart-header">
+    <div class="cart-title">Your Cart</div>
+    <button class="cart-close" onclick="toggleCart()">×</button>
+  </div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none;">
+    <div class="cart-total-row"><span>Subtotal</span><span id="cart-subtotal">$0</span></div>
+    <div class="cart-total-row"><span>Shipping</span><span id="cart-shipping">Calculated at checkout</span></div>
+    <div class="cart-total"><span>Total</span><span id="cart-total-amount">$0</span></div>
+    <button class="checkout-btn" onclick="openCheckout()">Checkout — Cash App</button>
+    <p class="cart-note">Pay via Cash App $resllerhq · Ships in 24hrs</p>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div id="product-modal">
+  <div id="modal-overlay" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-img" id="modal-img">VYZE</div>
+    <div class="modal-info">
+      <div class="modal-brand" id="modal-brand"></div>
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-price" id="modal-price"></div>
+      <div class="modal-color-row" id="modal-color-row" style="display:none;">
+        <span>Color:</span>
+        <span id="modal-color-dot" class="product-color-dot"></span>
+        <span id="modal-color-name"></span>
+      </div>
+      <p class="modal-desc" id="modal-desc"></p>
+      <div>
+        <div class="size-label">Select Size</div>
+        <div class="sizes-grid" id="modal-sizes"></div>
+      </div>
+      <button class="modal-add" onclick="addToCartFromModal()">Add to Cart</button>
+      <div class="modal-shipping">
+        <span>✓ 10-15 Day Delivery</span>
+        <span>✓ Discreet Packaging</span>
+        <span>✓ Quality Guaranteed</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div id="checkout-modal">
+  <div id="checkout-overlay" onclick="closeCheckout()"></div>
+  <div class="checkout-box">
+    <button class="checkout-close" onclick="closeCheckout()">×</button>
+    <div class="checkout-title">Checkout</div>
+    <div class="checkout-section">
+      <div class="checkout-section-title">Contact Info</div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">First Name</label><input class="form-input" id="co-fname" placeholder="John"></div>
+        <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" id="co-lname" placeholder="Doe"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="co-email" placeholder="john@email.com" type="email"></div>
+      <div class="form-group"><label class="form-label">Phone (optional)</label><input class="form-input" id="co-phone" placeholder="(555) 000-0000"></div>
+    </div>
+    <div class="checkout-section">
+      <div class="checkout-section-title">Shipping Address</div>
+      <div class="form-group"><label class="form-label">Address</label><input class="form-input" id="co-address" placeholder="123 Main St"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">City</label><input class="form-input" id="co-city" placeholder="New York"></div>
+        <div class="form-group"><label class="form-label">State</label><input class="form-input" id="co-state" placeholder="NY"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Zip Code</label><input class="form-input" id="co-zip" placeholder="10001"></div>
+        <div class="form-group"><label class="form-label">Country</label><input class="form-input" id="co-country" placeholder="USA" value="USA"></div>
+      </div>
+    </div>
+    <div class="checkout-summary">
+      <div class="checkout-summary-title">Order Summary</div>
+      <div id="checkout-items-list"></div>
+      <div class="checkout-total-row"><span>Total</span><span id="checkout-total">$0</span></div>
+    </div>
+    <div class="cashapp-box">
+      <div style="font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.5);">PAY VIA CASH APP</div>
+      <div class="cashapp-tag">$resllerhq</div>
+      <div class="cashapp-amount" id="cashapp-amount">$0</div>
+      <div class="cashapp-note">Send the exact amount above to $resllerhq on Cash App. Include your name in the note. Your order ships within 24 hours of payment confirmation.</div>
+    </div>
+    <button class="place-order-btn" onclick="placeOrder()">I've Sent Payment — Place Order</button>
+  </div>
+</div>
+
+<!-- ORDER CONFIRM MODAL -->
+<div id="confirm-modal">
+  <div id="confirm-overlay"></div>
+  <div class="confirm-box">
+    <div class="confirm-check">✓</div>
+    <div class="confirm-title">Order Placed!</div>
+    <p class="confirm-sub">Thank you for your order! Once we confirm your Cash App payment, your package will ship within 24 hours. You'll receive tracking info via email.</p>
+    <div class="confirm-order-num" id="confirm-order-num">Order #VYZ-0000</div>
+    <button class="btn-primary" onclick="closeConfirm()">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel">
+  <div class="admin-nav">
+    <div class="admin-logo">VYZE — Admin</div>
+    <button class="admin-close" onclick="toggleAdmin()">✕ Close Admin</button>
+  </div>
+  <div class="admin-body">
+    <div class="admin-section">
+      <div class="admin-section-title">Add New Product</div>
+      <div class="admin-form">
+        <div class="form-group"><label class="form-label">Product Name</label><input class="form-input" id="a-name" placeholder="Spider Hoodie — Black"></div>
+        <div class="form-group"><label class="form-label">Brand</label><select class="form-input" id="a-brand"><option>Essentials</option><option>Spider</option><option>Hellstar</option><option>Lululemon</option><option>Alo</option><option>Balenciaga</option><option>Louis Vuitton</option><option>Rick Owens</option><option>Dior</option><option>Bape</option></select></div>
+        <div class="form-group"><label class="form-label">Price ($)</label><input class="form-input" id="a-price" type="number" placeholder="120"></div>
+        <div class="form-group"><label class="form-label">Category</label><select class="form-input" id="a-cat"><option value="clothing">Clothing</option><option value="shoes">Shoes</option><option value="accessories">Accessories</option></select></div>
+        <div class="form-group"><label class="form-label">Badge</label><select class="form-input" id="a-badge"><option value="">None</option><option value="new">New</option><option value="low">Low Stock</option><option value="sold">Sold Out</option></select></div>
+        <div class="form-group"><label class="form-label">Sizes (comma separated)</label><input class="form-input" id="a-sizes" placeholder="S, M, L, XL or 8, 9, 10, 11"></div>
+        <div class="form-group full"><label class="form-label">Description</label><textarea class="form-input" id="a-desc" rows="3" placeholder="Premium 1:1 quality..."></textarea></div>
+
+        <!-- COLOR PICKER -->
+        <div class="form-group full">
+          <label class="form-label">Color</label>
+          <div class="color-picker-wrap">
+            <div class="color-presets" id="color-presets"></div>
+            <div class="color-custom-row">
+              <input type="color" id="a-color-picker" value="#000000" oninput="setCustomColor(this.value)">
+              <input type="text" class="color-name-input" id="a-color-name" placeholder="Color name (e.g. Black, Navy Blue, Cream)">
+            </div>
+          </div>
+        </div>
+
+        <!-- IMAGE UPLOAD -->
+        <div class="form-group full">
+          <label class="form-label">Product Image</label>
+          <div class="img-upload-area" id="img-upload-area">
+            <input type="file" id="a-img-file" accept="image/*" onchange="handleImageUpload(this)">
+            <div class="img-upload-label">
+              <span>📷</span>
+              Click to upload image
+            </div>
+          </div>
+          <img class="img-preview" id="img-preview" src="" alt="Preview">
+          <button class="img-clear" id="img-clear" onclick="clearImage()">✕ Remove Image</button>
+        </div>
+      </div>
+      <button class="admin-btn" onclick="addProduct()">+ Add Product</button>
+    </div>
+    <div class="admin-section">
+      <div class="admin-section-title">All Products (<span id="admin-count">0</span>)</div>
+      <div class="admin-products-list" id="admin-products-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════
+//  VYZE STORE — COMPLETE SYSTEM
+// ═══════════════════════════════
+
+// CURSOR
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+animRing();
+document.querySelectorAll('button,a,.product-card,.brand-pill,.filter-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='6px';cursor.style.height='6px';ring.style.width='48px';ring.style.height='48px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';});
+});
+
+// COLOR PRESETS
+const COLOR_PRESETS=[
+  {hex:'#000000',name:'Black'},
+  {hex:'#ffffff',name:'White'},
+  {hex:'#6b7280',name:'Grey'},
+  {hex:'#1e3a5f',name:'Navy Blue'},
+  {hex:'#1d4ed8',name:'Blue'},
+  {hex:'#ef4444',name:'Red'},
+  {hex:'#f97316',name:'Orange'},
+  {hex:'#eab308',name:'Yellow'},
+  {hex:'#22c55e',name:'Green'},
+  {hex:'#8b5cf6',name:'Purple'},
+  {hex:'#ec4899',name:'Pink'},
+  {hex:'#d4a96a',name:'Tan'},
+  {hex:'#f5f0e8',name:'Cream'},
+  {hex:'#5c3d2e',name:'Brown'},
+  {hex:'#c0c0c0',name:'Silver'},
+];
+
+let selectedColor={hex:'',name:''};
+
+function renderColorPresets(){
+  const wrap=document.getElementById('color-presets');
+  wrap.innerHTML=COLOR_PRESETS.map(c=>`
+    <div class="color-preset" style="background:${c.hex};${c.hex==='#ffffff'?'border:2px solid #e8e7e4':''}"
+      title="${c.name}" onclick="selectPresetColor('${c.hex}','${c.name}',this)"></div>
+  `).join('');
+}
+
+function selectPresetColor(hex,name,el){
+  selectedColor={hex,name};
+  document.getElementById('a-color-picker').value=hex;
+  document.getElementById('a-color-name').value=name;
+  document.querySelectorAll('.color-preset').forEach(p=>p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function setCustomColor(hex){
+  selectedColor.hex=hex;
+  const nameInput=document.getElementById('a-color-name');
+  if(!nameInput.value) nameInput.value='Custom';
+  selectedColor.name=nameInput.value;
+  document.querySelectorAll('.color-preset').forEach(p=>p.classList.remove('selected'));
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('a-color-name').addEventListener('input',function(){
+    selectedColor.name=this.value;
+  });
+});
+
+// PRODUCTS DATA
+let products = JSON.parse(localStorage.getItem('vyze_products') || 'null') || [
+  {id:1,name:'Spider Hoodie',brand:'Spider',price:130,category:'clothing',badge:'new',sizes:['S','M','L','XL','XXL'],desc:'Premium 1:1 Spider hoodie. Perfect stitching, embroidered logo, heavyweight fleece.',color:{hex:'#000000',name:'Black'}},
+  {id:2,name:'Hellstar Hoodie',brand:'Hellstar',price:125,category:'clothing',badge:'new',sizes:['S','M','L','XL'],desc:'1:1 Hellstar graphic hoodie. All prints are crisp and vibrant with correct placement.',color:{hex:'#ffffff',name:'White'}},
+  {id:3,name:'Essentials Hoodie',brand:'Essentials',price:105,category:'clothing',badge:'',sizes:['XS','S','M','L','XL'],desc:'Fear of God Essentials hoodie. Perfect weight, correct logo placement, matching tags.',color:{hex:'#6b7280',name:'Grey'}},
+  {id:4,name:'Lululemon Set',brand:'Lululemon',price:145,category:'clothing',badge:'low',sizes:['XS','S','M','L'],desc:'Lululemon Define Jacket + Align leggings set. Fabric feel is identical, full set.',color:{hex:'#ec4899',name:'Pink'}},
+  {id:5,name:'Alo Yoga Set',brand:'Alo',price:140,category:'clothing',badge:'new',sizes:['XS','S','M','L'],desc:'Alo Yoga sweatshirt and leggings set. Premium quality athletic fabric.',color:{hex:'#000000',name:'Black'}},
+  {id:6,name:'Balenciaga Track Hoodie',brand:'Balenciaga',price:165,category:'clothing',badge:'',sizes:['XS','S','M','L','XL'],desc:'Balenciaga logo hoodie. Premium quality with correct branding and fit.',color:{hex:'#000000',name:'Black'}},
+  {id:7,name:'LV Monogram Hoodie',brand:'Louis Vuitton',price:210,category:'clothing',badge:'new',sizes:['S','M','L','XL'],desc:'Louis Vuitton monogram hoodie. All-over print is sharp and accurate. Premium heavyweight fabric.',color:{hex:'#d4a96a',name:'Tan'}},
+  {id:8,name:'Rick Owens Jacket',brand:'Rick Owens',price:240,category:'clothing',badge:'',sizes:['S','M','L','XL'],desc:'Rick Owens draped jacket. Exact same silhouette and fabric weight as retail.',color:{hex:'#000000',name:'Black'}},
+  {id:9,name:'Dior Oblique Hoodie',brand:'Dior',price:200,category:'clothing',badge:'',sizes:['S','M','L','XL'],desc:'Dior oblique hoodie. All-over logo print is razor sharp. Premium quality fabric.',color:{hex:'#6b7280',name:'Grey'}},
+  {id:10,name:'Bape Shark Hoodie',brand:'Bape',price:145,category:'clothing',badge:'low',sizes:['S','M','L','XL','XXL'],desc:'BAPE shark full zip hoodie. Shark face detail is perfect, camo lining inside.',color:{hex:'#22c55e',name:'Green'}},
+  {id:11,name:'Balenciaga Track Runners',brand:'Balenciaga',price:230,category:'shoes',badge:'new',sizes:['7','8','9','10','11','12'],desc:'Balenciaga Track runners. Chunky sole, perfect colorway accuracy. All details spot on.',color:{hex:'#000000',name:'Black'}},
+  {id:12,name:'LV Trainer Sneakers',brand:'Louis Vuitton',price:260,category:'shoes',badge:'',sizes:['7','8','9','10','11','12'],desc:'LV Trainer sneakers with monogram detail. Premium leather upper, accurate branding.',color:{hex:'#ffffff',name:'White'}},
+  {id:13,name:'Dior B30 Sneakers',brand:'Dior',price:255,category:'shoes',badge:'new',sizes:['7','8','9','10','11','12'],desc:'Dior B30 sneakers. Exact colourway match, premium materials, correct box.',color:{hex:'#c0c0c0',name:'Silver'}},
+  {id:14,name:'Rick Owens DRKSHDW',brand:'Rick Owens',price:280,category:'shoes',badge:'',sizes:['7','8','9','10','11'],desc:'Rick Owens DRKSHDW sneakers. Signature thick sole, correct silhouette, premium canvas.',color:{hex:'#000000',name:'Black'}},
+  {id:15,name:'LV Beanie',brand:'Louis Vuitton',price:75,category:'accessories',badge:'new',sizes:['One Size'],desc:'LV monogram beanie. Embroidered logo, soft wool blend, perfect fit.',color:{hex:'#d4a96a',name:'Tan'}},
+  {id:16,name:'Balenciaga Belt',brand:'Balenciaga',price:85,category:'accessories',badge:'',sizes:['S/M','L/XL'],desc:'Balenciaga logo belt. Heavy duty buckle, correct font, premium leather strap.',color:{hex:'#000000',name:'Black'}},
+];
+
+let cart = JSON.parse(localStorage.getItem('vyze_cart') || '[]');
+let currentFilter = 'all';
+let currentSearch = '';
+let currentSort = '';
+let selectedProduct = null;
+let selectedSize = '';
+let uploadedImgData = '';
+
+function saveProducts(){localStorage.setItem('vyze_products',JSON.stringify(products));}
+function saveCart(){localStorage.setItem('vyze_cart',JSON.stringify(cart));updateCartCount();}
+
+// IMAGE UPLOAD (ADMIN ONLY)
+function handleImageUpload(input){
+  const file=input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    uploadedImgData=e.target.result;
+    const preview=document.getElementById('img-preview');
+    const clearBtn=document.getElementById('img-clear');
+    const uploadArea=document.getElementById('img-upload-area');
+    preview.src=uploadedImgData;
+    preview.classList.add('show');
+    clearBtn.classList.add('show');
+    uploadArea.querySelector('.img-upload-label').style.display='none';
+  };
+  reader.readAsDataURL(file);
+}
+function clearImage(){
+  uploadedImgData='';
+  const preview=document.getElementById('img-preview');
+  const clearBtn=document.getElementById('img-clear');
+  const uploadArea=document.getElementById('img-upload-area');
+  preview.src='';
+  preview.classList.remove('show');
+  clearBtn.classList.remove('show');
+  uploadArea.querySelector('.img-upload-label').style.display='';
+  document.getElementById('a-img-file').value='';
+}
+
+// RENDER PRODUCTS
+function renderProducts(){
+  const grid=document.getElementById('products-grid');
+  let filtered=products.filter(p=>{
+    const matchFilter=currentFilter==='all'||p.category===currentFilter||p.brand.toLowerCase().replace(' ','')===currentFilter||p.brand.toLowerCase()===currentFilter;
+    const matchSearch=!currentSearch||p.name.toLowerCase().includes(currentSearch)||p.brand.toLowerCase().includes(currentSearch);
+    return matchFilter&&matchSearch;
+  });
+  if(currentSort==='price-low') filtered.sort((a,b)=>a.price-b.price);
+  else if(currentSort==='price-high') filtered.sort((a,b)=>b.price-a.price);
+  else if(currentSort==='new') filtered.sort((a,b)=>b.id-a.id);
+  document.getElementById('no-products').style.display=filtered.length?'none':'block';
+  grid.innerHTML=filtered.map(p=>`
+    <div class="product-card" onclick="openModal(${p.id})">
+      <div class="product-img-wrap">
+        ${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy">`:`<div class="product-img-placeholder">${p.brand.substring(0,1)}</div>`}
+        ${p.badge?`<div class="product-badge badge-${p.badge}">${p.badge==='new'?'New':p.badge==='low'?'Low Stock':'Sold Out'}</div>`:''}
+        <button class="product-quick" onclick="event.stopPropagation();quickAdd(${p.id})">Quick Add +</button>
+      </div>
+      <div class="product-info">
+        <div class="product-brand">${p.brand}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-price-row">
+          <div class="product-price">$${p.price}</div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            ${p.color&&p.color.hex?`<span class="product-color-dot" style="background:${p.color.hex};${p.color.hex==='#ffffff'?'border:1px solid #ccc':''}" title="${p.color.name||''}"></span>`:''}
+            <div class="product-sizes">${p.sizes.slice(0,3).join(' · ')}${p.sizes.length>3?' +'+(p.sizes.length-3):''}</div>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function filterProducts(f,btn){
+  currentFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderProducts();
+  document.getElementById('shop').scrollIntoView({behavior:'smooth'});
+}
+function sortProducts(v){currentSort=v;renderProducts();}
+function searchProducts(v){currentSearch=v.toLowerCase();renderProducts();}
+
+// MODAL
+function openModal(id){
+  selectedProduct=products.find(p=>p.id===id);
+  if(!selectedProduct)return;
+  selectedSize='';
+  document.getElementById('modal-brand').textContent=selectedProduct.brand;
+  document.getElementById('modal-name').textContent=selectedProduct.name;
+  document.getElementById('modal-price').textContent='$'+selectedProduct.price;
+  document.getElementById('modal-desc').textContent=selectedProduct.desc||'Premium 1:1 quality piece.';
+
+  // Color in modal
+  const colorRow=document.getElementById('modal-color-row');
+  if(selectedProduct.color&&selectedProduct.color.hex){
+    document.getElementById('modal-color-dot').style.background=selectedProduct.color.hex;
+    document.getElementById('modal-color-name').textContent=selectedProduct.color.name||'';
+    colorRow.style.display='flex';
+  } else {
+    colorRow.style.display='none';
+  }
+
+  const modalImg=document.getElementById('modal-img');
+  if(selectedProduct.img){
+    modalImg.innerHTML=`<img src="${selectedProduct.img}" style="width:100%;height:100%;object-fit:cover;">`;
+  } else {
+    modalImg.textContent=selectedProduct.brand.substring(0,1);
+  }
+  document.getElementById('modal-sizes').innerHTML=selectedProduct.sizes.map(s=>`<button class="size-btn" onclick="selectSize('${s}',this)">${s}</button>`).join('');
+  document.getElementById('product-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('product-modal').classList.remove('open');document.body.style.overflow='';}
+function selectSize(s,btn){selectedSize=s;document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function addToCartFromModal(){
+  if(!selectedSize&&selectedProduct.sizes.length>1){showToast('Please select a size');return;}
+  addToCart(selectedProduct,selectedSize||selectedProduct.sizes[0]);
+  closeModal();
+}
+function quickAdd(id){
+  const p=products.find(p=>p.id===id);
+  if(!p)return;
+  if(p.sizes.length>1){openModal(id);return;}
+  addToCart(p,p.sizes[0]);
+}
+
+// CART
+function addToCart(product,size){
+  const existing=cart.find(i=>i.id===product.id&&i.size===size);
+  if(existing){existing.qty++;} else{cart.push({id:product.id,name:product.name,brand:product.brand,price:product.price,img:product.img||'',size,qty:1});}
+  saveCart();
+  showToast(product.name+' added to cart');
+}
+function removeFromCart(id,size){
+  cart=cart.filter(i=>!(i.id===id&&i.size===size));
+  saveCart();renderCart();
+}
+function updateCartCount(){
+  const total=cart.reduce((a,i)=>a+i.qty,0);
+  const el=document.getElementById('cart-count');
+  el.textContent=total;
+  el.style.display=total>0?'flex':'none';
+}
+function getCartTotal(){return cart.reduce((a,i)=>a+i.price*i.qty,0);}
+function renderCart(){
+  const list=document.getElementById('cart-items-list');
+  const footer=document.getElementById('cart-footer');
+  if(!cart.length){
+    list.innerHTML='<div class="cart-empty"><div class="cart-empty-icon">🛍</div><p>Your cart is empty</p></div>';
+    footer.style.display='none';return;
+  }
+  footer.style.display='block';
+  list.innerHTML=cart.map(i=>`
+    <div class="cart-item">
+      <div class="cart-item-img">${i.img?`<img src="${i.img}" alt="${i.name}">`:`${i.name.substring(0,1)}`}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-brand">${i.brand}</div>
+        <div class="cart-item-name">${i.name}</div>
+        <div class="cart-item-size">Size: ${i.size} · Qty: ${i.qty}</div>
+        <div class="cart-item-bottom">
+          <div class="cart-item-price">$${i.price*i.qty}</div>
+          <button class="cart-item-remove" onclick="removeFromCart(${i.id},'${i.size}')">×</button>
+        </div>
+      </div>
+    </div>`).join('');
+  const t=getCartTotal();
+  document.getElementById('cart-subtotal').textContent='$'+t;
+  document.getElementById('cart-total-amount').textContent='$'+(t>=150?t:t+15);
+  document.getElementById('cart-shipping').textContent=t>=150?'FREE':'$15';
+}
+function toggleCart(){
+  document.getElementById('cart-sidebar').classList.toggle('open');
+  document.getElementById('cart-overlay').classList.toggle('open');
+  renderCart();
+}
+
+// CHECKOUT
+function openCheckout(){
+  if(!cart.length)return;
+  toggleCart();
+  const t=getCartTotal();
+  const ship=t>=150?0:15;
+  const total=t+ship;
+  document.getElementById('cashapp-amount').textContent='$'+total;
+  document.getElementById('checkout-total').textContent='$'+total;
+  document.getElementById('checkout-items-list').innerHTML=cart.map(i=>`<div class="checkout-item-row"><span>${i.name} (${i.size}) x${i.qty}</span><span>$${i.price*i.qty}</span></div>`).join('')+`<div class="checkout-item-row"><span>Shipping</span><span>${ship===0?'FREE':'$'+ship}</span></div>`;
+  document.getElementById('checkout-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCheckout(){document.getElementById('checkout-modal').classList.remove('open');document.body.style.overflow='';}
+function placeOrder(){
+  const fname=document.getElementById('co-fname').value;
+  const email=document.getElementById('co-email').value;
+  const address=document.getElementById('co-address').value;
+  if(!fname||!email||!address){showToast('Please fill in all required fields');return;}
+  const orderNum='VYZ-'+Math.floor(1000+Math.random()*9000);
+  closeCheckout();
+  document.getElementById('confirm-order-num').textContent='Order #'+orderNum;
+  document.getElementById('confirm-modal').classList.add('open');
+  cart=[];saveCart();
+}
+function closeConfirm(){document.getElementById('confirm-modal').classList.remove('open');document.body.style.overflow='';}
+
+// TRACK ORDER
+function showTrack(){
+  document.getElementById('track-section').classList.add('active');
+  document.getElementById('track-section').scrollIntoView({behavior:'smooth'});
+}
+function trackOrder(){
+  const val=document.getElementById('track-input').value.trim();
+  if(!val){showToast('Enter an order number');return;}
+  document.getElementById('track-result').classList.add('show');
+}
+
+// FAQ
+const faqs=[
+  {q:'How long does shipping take?',a:'Orders typically arrive in 10-15 days. Once your Cash App payment is confirmed, your package ships within 24 hours. You\'ll receive tracking info via email.'},
+  {q:'How do I pay?',a:'We accept Cash App only. After placing your order, send the exact amount to $resllerhq on Cash App with your name in the note.'},
+  {q:'What is the quality like?',a:'All our products are premium 1:1 quality — meaning they are made to match the retail product as closely as possible. We source only from the best suppliers and quality check every item.'},
+  {q:'Can I return or exchange?',a:'Due to the nature of our products, we do not accept returns. However, if there is a quality issue with your order, contact us and we will make it right.'},
+  {q:'Is shipping discreet?',a:'Absolutely. All packages are shipped in plain boxes with no brand markings on the outside. Your privacy is our priority.'},
+  {q:'How do I track my order?',a:'Use the Track Order section on our website with your order number. You\'ll also receive tracking details via the email you provided at checkout.'},
+  {q:'Do you restock sold-out items?',a:'Yes! We restock popular items regularly. Sign up for our newsletter to get notified when items come back in stock.'},
+  {q:'What sizes do you carry?',a:'Most clothing items are available in XS through XXL. Shoes are available in most sizes 7-13. Check individual product pages for available sizes.'},
+];
+
+function renderFaq(){
+  document.getElementById('faq-list').innerHTML=faqs.map((f,i)=>`
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>${f.q}</span><span>+</span></button>
+      <div class="faq-a">${f.a}</div>
+    </div>`).join('');
+}
+function toggleFaq(btn){
+  btn.classList.toggle('open');
+  const a=btn.nextElementSibling;
+  a.classList.toggle('open');
+}
+
+// ADMIN
+let adminOpen=false;
+function toggleAdmin(){
+  const pw=adminOpen?true:prompt('Enter admin password:');
+  if(!adminOpen&&pw!=='vyze2025'){showToast('Incorrect password');return;}
+  adminOpen=!adminOpen;
+  document.getElementById('admin-panel').classList.toggle('open',adminOpen);
+  if(adminOpen)renderAdmin();
+}
+function renderAdmin(){
+  document.getElementById('admin-count').textContent=products.length;
+  document.getElementById('admin-products-list').innerHTML=products.map(p=>`
+    <div class="admin-product-card">
+      <div class="admin-product-card-img">${p.img?`<img src="${p.img}" alt="${p.name}">`:`${p.brand.substring(0,1)}`}</div>
+      <div class="admin-product-name">${p.name}</div>
+      <div class="admin-product-price" style="display:flex;align-items:center;gap:8px;">
+        $${p.price} · ${p.category}
+        ${p.color&&p.color.hex?`<span style="width:12px;height:12px;border-radius:50%;background:${p.color.hex};border:1px solid #ccc;display:inline-block;" title="${p.color.name}"></span> <span style="font-size:10px;color:#888">${p.color.name}</span>`:''}
+      </div>
+      <div class="admin-product-actions" style="margin-top:12px;">
+        <button class="admin-delete" onclick="deleteProduct(${p.id})">Delete</button>
+      </div>
+    </div>`).join('');
+}
+function addProduct(){
+  const name=document.getElementById('a-name').value.trim();
+  const brand=document.getElementById('a-brand').value;
+  const price=parseInt(document.getElementById('a-price').value);
+  const cat=document.getElementById('a-cat').value;
+  const badge=document.getElementById('a-badge').value;
+  const sizes=document.getElementById('a-sizes').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const desc=document.getElementById('a-desc').value.trim();
+  const colorName=document.getElementById('a-color-name').value.trim();
+  const colorHex=document.getElementById('a-color-picker').value;
+  if(!name||!price){showToast('Name and price are required');return;}
+  const color=(colorName||colorHex)?{hex:colorHex,name:colorName||colorHex}:{};
+  const newP={id:Date.now(),name,brand,price,category:cat,badge,sizes:sizes.length?sizes:['S','M','L','XL'],desc:desc||'Premium 1:1 quality.',img:uploadedImgData||'',color};
+  products.unshift(newP);
+  saveProducts();
+  renderProducts();
+  renderAdmin();
+  ['a-name','a-price','a-sizes','a-desc','a-color-name'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('a-color-picker').value='#000000';
+  selectedColor={hex:'',name:''};
+  document.querySelectorAll('.color-preset').forEach(p=>p.classList.remove('selected'));
+  clearImage();
+  showToast('Product added!');
+}
+function deleteProduct(id){
+  if(!confirm('Delete this product?'))return;
+  products=products.filter(p=>p.id!==id);
+  saveProducts();renderProducts();renderAdmin();
+  showToast('Product deleted');
+}
+
+// EMAIL SIGNUP
+function signupEmail(){
+  const email=document.getElementById('email-signup').value;
+  if(!email||!email.includes('@')){showToast('Enter a valid email');return;}
+  showToast('You\'re on the list! 🔥');
+  document.getElementById('email-signup').value='';
+}
+
+// TOAST
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// INIT
+renderColorPresets();
+renderProducts();
+renderFaq();
+updateCartCount();
+</script>
+</body>
+</html>
